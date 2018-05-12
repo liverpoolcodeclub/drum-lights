@@ -1,0 +1,9 @@
+{
+  "name": "microbit-projects",
+  "version": "1.0.0",
+  "dependencies": {
+    "pxt": "^0.4.0",
+    "pxt-microbit": "^0.14.34"
+  },
+  "author": "https://zarino.co.uk"
+}
