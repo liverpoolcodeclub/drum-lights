@@ -48,22 +48,6 @@ Then edit your files (`main.ts` is a good place to start) and when you’re read
 
 The `pxt` command, when called with no arguments, works out which project you’re currently looking at, compiles it, and deploys it to all connected microbits.
 
-## Installing a third-party PXT module into an existing project
-
-Sometimes you need to use code that isn’t part of the microbit’s standard library.
-
-In the visual MakeCode editor, you would use the “Add Package…” option to find and install third-party modules.
-
-The command line equivalent is to run:
-
-    npx pxt install <github-user>/<github-repo>
-
-So, for example, to install the [Neopixel library](https://github.com/microsoft/pxt-neopixel):
-
-    npx pxt install microsoft/pxt-neopixel
-
-The dependency will be downloaded, and recorded in the `dependencies` section of your project’s `pxt.json` file (so future users can just run `pxt install` to install it, along with all the other modules your project might require).
-
 ## Creating a new project
 
 From the root level, create a new directory to hold your project:
@@ -76,6 +60,23 @@ Go into the new directory, and let `pxt` set up all the project files for you:
     npx pxt init
 
 That’s it!
+
+## Installing a third-party PXT module into an existing project
+
+Sometimes you need to use code that isn’t part of the microbit’s standard library.
+
+In the visual MakeCode editor, you would use the “Add Package…” option to find and install third-party modules.
+
+The command line equivalent is to run:
+
+    npx pxt install <github-user>/<github-repo>
+
+So, for example, to install the [Neopixel library](https://github.com/microsoft/pxt-neopixel) into the project called “my-new-project”:
+
+    cd my-new-project
+    npx pxt install microsoft/pxt-neopixel
+
+The dependency will be downloaded, and recorded in the `dependencies` section of your project’s `pxt.json` file (so future users can just run `pxt install` to install it, along with all the other modules your project might require).
 
 ---
 
