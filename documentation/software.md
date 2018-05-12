@@ -80,6 +80,30 @@ The dependency will be downloaded, and recorded in the `dependencies` section of
 
 ---
 
+## Reading serial output from a connected microbit
+
+Plug in the microbit into your Mac, then run:
+
+    screen $(ls -Art /dev/cu.usbmodem* | tail -n 1) 115200
+
+This tries to find the most recently created serial device, and connect to it with a bitrate that suits the microbit.
+
+If that doesn’t work (like screen complains that it “could not find a PTY”) then check whether there are any other serial devices available, and try those instead:
+
+    ls /dev/cu.usbmodem*
+
+Sometimes screens linger after you’ve exited them, causing errors when you try to re-connect to the same device a second time. To kill any inactive, detached screen sessions:
+
+    screen -X quit
+
+Or, if you want to find any screen processes manually:
+
+    ps waxwux | grep -i screen
+
+Once a screen process is active, you can exit it gracefully by pressing `crtl`–`A` followed by `ctrl`–`D`.
+
+---
+
 ## Useful links:
 
 * https://makecode.com/cli
