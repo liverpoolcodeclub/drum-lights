@@ -5,7 +5,6 @@ let threshold = 0
 let minThreshold = 0
 let maxThreshold = 0
 let totalRowsToLight = 0
-let color = 0
 let totalLedsToLight = 0
 let group = 0
 
@@ -24,9 +23,22 @@ function displayThreshold()  {
         led.plot(index3, totalRowsToLight)
     }
 }
+
+function getColorForGroup(group: number): number {
+    if ( group < 5 ) {
+        return neopixel.colors(NeoPixelColors.Blue)
+    } else if ( group < 7 ) {
+        return neopixel.colors(NeoPixelColors.Green)
+    } else if ( group < 7 ) {
+        return neopixel.colors(NeoPixelColors.Yellow)
+    } else {
+        return neopixel.colors(NeoPixelColors.White)
+    }
+}
+
 radio.onDataPacketReceived( ({ receivedNumber }) =>  {
     if (receivedNumber > threshold) {
-        strip.showColor(color)
+        strip.showColor(getColorForGroup(group))
     } else {
         strip.clear()
         strip.show()
@@ -51,7 +63,6 @@ input.onButtonPressed(Button.AB, () => {
 })
 
 group = 9
-color = neopixel.colors(NeoPixelColors.White)
 index = 0
 increment = 50
 threshold = 1500
