@@ -9,9 +9,11 @@ let totalLedsToLight = 0
 let group = 0
 
 function displayThreshold()  {
-    totalLedsToLight = (threshold - minThreshold) / increment + 1
+    // We multiply threshold by -1 to make the maths easier.
+    totalLedsToLight = (((threshold * -1) - maxThreshold) / increment ) + 1
     totalRowsToLight = (totalLedsToLight - totalLedsToLight % 5) / 5
     basic.clearScreen()
+    // Draw the full rows (if there are any).
     for (let index2 = 0; index2 <= totalRowsToLight - 1; index2++) {
         led.plot(0, index2)
         led.plot(1, index2)
@@ -19,6 +21,7 @@ function displayThreshold()  {
         led.plot(3, index2)
         led.plot(4, index2)
     }
+    // Draw the final, partial row (if there is one).
     for (let index3 = 0; index3 <= totalLedsToLight % 5 - 1; index3++) {
         led.plot(index3, totalRowsToLight)
     }
@@ -36,8 +39,11 @@ function getColorForGroup(group: number): number {
     }
 }
 
+// We’re only interested in negative acceleration readings
+// (see the README) so we check whether the receivedNumber
+// is *below* our threshold (default threshold is -500).
 radio.onDataPacketReceived( ({ receivedNumber }) =>  {
-    if (receivedNumber > threshold) {
+    if (receivedNumber < threshold) {
         strip.showColor(getColorForGroup(group))
     } else {
         strip.clear()
@@ -45,13 +51,23 @@ radio.onDataPacketReceived( ({ receivedNumber }) =>  {
     }
 })
 
+// The threshold is displayed as a bar, filling Left-to-Right.
+// The longer the bar, the *further* below zero the threshold is.
+// Therefore it makes sense that pressing button A, on the left
+// of the screen, should make the threshold less negative and
+// closer to zero.
 input.onButtonPressed(Button.A, () => {
-    threshold = Math.max(threshold - increment, minThreshold)
+    threshold = Math.min(threshold + increment, maxThreshold)
     displayThreshold()
 })
 
+// The threshold is displayed as a bar, filling Left-to-Right.
+// The longer the bar, the *further* below zero the threshold is.
+// Therefore it makes sense that pressing button B, on the right
+// of the screen, should make the threshold even more negative,
+// and further away from zero.
 input.onButtonPressed(Button.B, () => {
-    threshold = Math.min(threshold + increment, maxThreshold)
+    threshold = Math.max(threshold - increment, minThreshold)
     displayThreshold()
 })
 
@@ -62,12 +78,12 @@ input.onButtonPressed(Button.AB, () => {
     displayThreshold()
 })
 
-group = 9
+group = 1
 index = 0
-increment = 50
-threshold = 1500
-minThreshold = 1000
-maxThreshold = 2200
+increment = 100
+threshold = -500
+minThreshold = -2000
+maxThreshold = 0
 strip = neopixel.create(DigitalPin.P0, 60, NeoPixelMode.RGB)
 
 radio.setGroup(group)
