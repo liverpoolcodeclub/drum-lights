@@ -29,13 +29,17 @@ function displayThreshold()  {
 
 function getColorForGroup(group: number): number {
     if ( group < 5 ) {
-        return neopixel.colors(NeoPixelColors.Blue)
+        // Dobra, front four
+        return neopixel.colors(NeoPixelColors.Orange)
     } else if ( group < 7 ) {
-        return neopixel.colors(NeoPixelColors.Green)
-    } else if ( group < 7 ) {
-        return neopixel.colors(NeoPixelColors.Yellow)
-    } else {
+        // Repinique (tenor/tom-tom), middle right two
         return neopixel.colors(NeoPixelColors.White)
+    } else if ( group < 9 ) {
+        // Caixa (snare drum), middle left two
+        return neopixel.colors(NeoPixelColors.Blue)
+    } else {
+        // Surdo (bass drum), back four
+        return neopixel.colors(NeoPixelColors.Green)
     }
 }
 
